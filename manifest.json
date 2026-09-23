@@ -1,0 +1,11 @@
+{
+  "name": "Jip Cijfers",
+  "short_name": "Jip Cijfers",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f4ed",
+  "theme_color": "#f7f4ed",
+  "icons": [
+    {"src": "icon-180.png", "sizes": "180x180", "type": "image/png"}
+  ]
+}

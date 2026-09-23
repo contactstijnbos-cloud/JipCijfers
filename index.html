@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#f7f4ed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Jip Cijfers" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <title>Jip Cijfers</title>
+  <style>
+    :root{--bg:#f7f4ed;--card:#ffffff;--ink:#1f2937;--soft:#e9e3d8;--good:#2f855a;--accent:#2563eb;--wrong:#c2410c}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--ink)}
+    body{display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
+    .app{width:min(100%,680px);min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:18px 0}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px}.title{font-size:clamp(24px,6vw,38px);font-weight:800;letter-spacing:-.03em}
+    .stars{font-size:24px;background:var(--card);padding:8px 12px;border-radius:18px;box-shadow:0 3px 14px rgba(0,0,0,.06)}
+    .card{background:var(--card);border-radius:28px;padding:22px;box-shadow:0 8px 28px rgba(0,0,0,.08);text-align:center}
+    .prompt{font-size:clamp(28px,8vw,48px);font-weight:800;line-height:1.05;margin:6px 0 14px}.speaker{border:0;background:var(--soft);border-radius:999px;font-size:20px;padding:10px 16px;margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.choice{border:0;background:#fff;border-radius:24px;min-height:120px;font-size:clamp(44px,15vw,78px);font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.10);touch-action:manipulation}.choice:active{transform:scale(.97)}.choice.good{outline:6px solid #86efac;background:#f0fdf4}.choice.bad{outline:6px solid #fdba74;background:#fff7ed}
+    .dots{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;min-height:92px;padding:8px}.dot{width:28px;height:28px;border-radius:50%;background:var(--accent)}
+    .footer{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.mode{border:0;background:var(--soft);padding:11px 14px;border-radius:999px;font-weight:700;font-size:15px}.mode.active{background:var(--ink);color:white}.message{min-height:36px;font-size:22px;font-weight:800;margin-top:12px}.small{font-size:13px;opacity:.6;text-align:center;padding:0 20px}@media (min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.choice{min-height:140px}}
+  </style>
+</head>
+<body><main class="app">
+<div class="top"><div class="title">Jip Cijfers</div><div class="stars" aria-label="sterren">⭐ <span id="score">0</span></div></div>
+<section class="card"><div id="prompt" class="prompt">Tik op het cijfer 3</div><button class="speaker" id="speakBtn" aria-label="Lees opdracht voor">🔊 Nog een keer</button><div id="visual" class="dots" aria-hidden="true"></div><div id="choices" class="grid"></div><div id="message" class="message"></div></section>
+<div class="footer"><button class="mode active" data-mode="find">Vind het cijfer</button><button class="mode" data-mode="count">Tel de stippen</button><button class="mode" data-mode="mix">Door elkaar</button></div><div class="small">Geen timer. Geen verlies. Gewoon oefenen.</div></main>
+<script>(()=>{const nums=[1,2,3,4,5,6,7,8,9,10];let score=Number(localStorage.getItem("jipScore")||0),mode=localStorage.getItem("jipMode")||"find",answer=1,locked=false;const scoreEl=document.getElementById("score"),promptEl=document.getElementById("prompt"),choicesEl=document.getElementById("choices"),visualEl=document.getElementById("visual"),messageEl=document.getElementById("message"),speakBtn=document.getElementById("speakBtn");scoreEl.textContent=score;function say(text){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="nl-NL";u.rate=.82;u.pitch=1.05;speechSynthesis.speak(u)}function shuffle(a){return[...a].sort(()=>Math.random()-.5)}function makeChoices(ans){const pool=nums.filter(n=>n!==ans);return shuffle([ans,...shuffle(pool).slice(0,3)])}function currentRoundType(){return mode==="mix"?(Math.random()<.5?"find":"count"):mode}function newRound(){locked=false;messageEl.textContent="";visualEl.innerHTML="";answer=nums[Math.floor(Math.random()*nums.length)];const type=currentRoundType();if(type==="find"){promptEl.textContent=`Tik op het cijfer ${answer}`;say(`Waar is de ${answer}?`)}else{promptEl.textContent="Hoeveel stippen zie je?";for(let i=0;i<answer;i++){const d=document.createElement("div");d.className="dot";visualEl.appendChild(d)}say("Hoeveel stippen zie je?")}choicesEl.innerHTML="";makeChoices(answer).forEach(n=>{const b=document.createElement("button");b.className="choice";b.textContent=n;b.setAttribute("aria-label",`Cijfer ${n}`);b.addEventListener("click",()=>choose(n,b));choicesEl.appendChild(b)})}function choose(n,btn){if(locked)return;if(n===answer){locked=true;btn.classList.add("good");score++;localStorage.setItem("jipScore",score);scoreEl.textContent=score;const cheers=["Goed zo!","Yes!","Knap gedaan!","Precies!","Top!"];const msg=cheers[Math.floor(Math.random()*cheers.length)];messageEl.textContent=`⭐ ${msg}`;say(msg);setTimeout(newRound,950)}else{btn.classList.add("bad");messageEl.textContent="Bijna. Probeer nog eens.";say("Bijna. Probeer nog eens.");setTimeout(()=>btn.classList.remove("bad"),500)}}speakBtn.addEventListener("click",()=>{if(promptEl.textContent.startsWith("Tik"))say(`Waar is de ${answer}?`);else say("Hoeveel stippen zie je?")});document.querySelectorAll(".mode").forEach(b=>{if(b.dataset.mode===mode)b.classList.add("active");else b.classList.remove("active");b.addEventListener("click",()=>{mode=b.dataset.mode;localStorage.setItem("jipMode",mode);document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("active",x===b));newRound()})});if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}newRound()})();</script></body></html>
