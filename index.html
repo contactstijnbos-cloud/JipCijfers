@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#f7f4ed" />
+  <meta name="theme-color" content="#dc2626" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Jip Cijfers" />
@@ -11,18 +11,18 @@
   <link rel="apple-touch-icon" href="icon-180.png" />
   <title>Jip Cijfers</title>
   <style>
-    :root{--bg:#f7f4ed;--card:#ffffff;--ink:#1f2937;--soft:#e9e3d8;--good:#2f855a;--accent:#2563eb;--wrong:#c2410c}
+    :root{--bg:#dc2626;--card:#fff1f1;--ink:#7f1d1d;--soft:#fecaca;--good:#b91c1c;--accent:#dc2626;--wrong:#fca5a5}
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{margin:0;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--ink)}
     body{display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
     .app{width:min(100%,680px);min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:18px 0}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px}.title{font-size:clamp(24px,6vw,38px);font-weight:800;letter-spacing:-.03em}
-    .stars{font-size:24px;background:var(--card);padding:8px 12px;border-radius:18px;box-shadow:0 3px 14px rgba(0,0,0,.06)}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px}.title{color:#fff;font-size:clamp(24px,6vw,38px);font-weight:800;letter-spacing:-.03em}
+    .stars{font-size:24px;color:var(--ink);background:var(--card);padding:8px 12px;border-radius:18px;box-shadow:0 3px 14px rgba(0,0,0,.06)}
     .card{background:var(--card);border-radius:28px;padding:22px;box-shadow:0 8px 28px rgba(0,0,0,.08);text-align:center}
-    .prompt{font-size:clamp(28px,8vw,48px);font-weight:800;line-height:1.05;margin:6px 0 14px}.speaker{border:0;background:var(--soft);border-radius:999px;font-size:20px;padding:10px 16px;margin-bottom:18px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.choice{border:0;background:#fff;border-radius:24px;min-height:120px;font-size:clamp(44px,15vw,78px);font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.10);touch-action:manipulation}.choice:active{transform:scale(.97)}.choice.good{outline:6px solid #86efac;background:#f0fdf4}.choice.bad{outline:6px solid #fdba74;background:#fff7ed}
+    .prompt{font-size:clamp(28px,8vw,48px);font-weight:800;line-height:1.05;margin:6px 0 14px}.speaker{border:0;background:var(--soft);color:var(--ink);border-radius:999px;font-size:20px;padding:10px 16px;margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.choice{border:0;background:#fff;color:var(--accent);border-radius:24px;min-height:120px;font-size:clamp(44px,15vw,78px);font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.10);touch-action:manipulation}.choice:active{transform:scale(.97)}.choice.good{outline:6px solid #7f1d1d;background:var(--good);color:#fff}.choice.bad{outline:6px solid var(--wrong);background:#fee2e2;opacity:.6}
     .dots{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;min-height:92px;padding:8px}.dot{width:28px;height:28px;border-radius:50%;background:var(--accent)}
-    .footer{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.mode{border:0;background:var(--soft);padding:11px 14px;border-radius:999px;font-weight:700;font-size:15px}.mode.active{background:var(--ink);color:white}.message{min-height:36px;font-size:22px;font-weight:800;margin-top:12px}.small{font-size:13px;opacity:.6;text-align:center;padding:0 20px}@media (min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.choice{min-height:140px}}
+    .footer{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.mode{border:0;background:var(--soft);color:var(--ink);padding:11px 14px;border-radius:999px;font-weight:700;font-size:15px}.mode.active{background:var(--ink);color:#fff}.message{min-height:36px;font-size:22px;font-weight:800;margin-top:12px}.small{font-size:13px;color:#fff;opacity:.85;text-align:center;padding:0 20px}@media (min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.choice{min-height:140px}}
   </style>
 </head>
 <body><main class="app">
